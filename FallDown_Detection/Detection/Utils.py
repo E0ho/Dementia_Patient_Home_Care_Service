@@ -14,9 +14,6 @@ def to_cpu(tensor):
 
 
 def load_classes(path):
-    """
-    Loads class labels at 'path'
-    """
     fp = open(path, "r")
     names = fp.read().split("\n")[:-1]
     return names
@@ -30,11 +27,10 @@ def weights_init_normal(m):
         torch.nn.init.normal_(m.weight.data, 1.0, 0.02)
         torch.nn.init.constant_(m.bias.data, 0.0)
 
-
+# Bounding boxes 크기 -> 원래 이미지 사이즈로 조정
 def rescale_boxes(boxes, current_dim, original_shape):
-    """ Rescales bounding boxes to the original shape """
     orig_h, orig_w = original_shape
-    # The amount of padding that was added
+    # 패딩 사용
     pad_x = max(orig_h - orig_w, 0) * (current_dim / max(original_shape))
     pad_y = max(orig_w - orig_h, 0) * (current_dim / max(original_shape))
     # Image height and width after padding is removed
